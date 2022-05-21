@@ -1,0 +1,111 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+}
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "com.mildroid.devto"
+        minSdk 21
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.7.0'
+
+    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
+    implementation "androidx.activity:activity-ktx:1.4.0"
+    implementation "androidx.browser:browser:1.4.0"
+    implementation 'androidx.palette:palette-ktx:1.0.0'
+    implementation 'androidx.core:core-splashscreen:1.0.0-rc01'
+
+
+    // -- Coroutines
+    def coroutines_version = '1.6.1-native-mt'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
+    // -- Lifecycle Components (ViewModel and LiveData)
+    def lifecycle_version = "2.4.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-service:$lifecycle_version"
+
+    // -- Retrofit2
+    def retrofit_version = '2.9.0'
+    def okHttp_version = '4.9.3'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttp_version"
+    implementation "com.squareup.okhttp3:okhttp:$okHttp_version"
+//    implementation "com.squareup.okhttp3:okhttp-dnsoverhttps:$okHttp_version"
+
+    // -- Moshi
+    implementation("com.squareup.moshi:moshi-kotlin:1.13.0")
+    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.13.0'
+
+    // -- Room
+    def room_version = "2.4.2"
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt("androidx.room:room-compiler:$room_version")
+
+    // -- Coil - Compose
+    implementation("io.coil-kt:coil-compose:2.0.0-rc03")
+
+    // -- Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    //    -- Jetpack Compose
+    def compose_version = '1.1.1'
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.compiler:compiler:$compose_version"
+    // Tooling support (Previews, etc.)
+    implementation "androidx.compose.ui:ui-tooling:$compose_version"
+    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
+    implementation "androidx.compose.foundation:foundation:$compose_version"
+    // Material Design
+    implementation "androidx.compose.material:material:$compose_version"
+    // Material design icons
+    implementation "androidx.compose.material:material-icons-core:$compose_version"
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
+    // Integration with activities
+    implementation 'androidx.activity:activity-compose:1.4.0'
+    // Integration with ViewModels
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1'
+    // Integration with observables
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.23.1"
+}
