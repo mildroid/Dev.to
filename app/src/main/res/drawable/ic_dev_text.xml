@@ -1,21 +1,19 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
-    android:viewportWidth="360"
-    android:viewportHeight="360">
+    android:viewportWidth="108"
+    android:viewportHeight="108">
 
     <group
-        android:scaleY="0.5"
-        android:scaleX="0.5"
-        android:pivotX="180"
-        android:pivotY="180">
+        android:pivotY="54"
+        android:pivotX="54"
+        android:scaleX="0.6"
+        android:scaleY="0.6">
 
-        <path
-            android:fillColor="#00000000"
-            android:pathData="M0,0h360v360h-360z" />
-        <path
-            android:fillColor="#fff"
-            android:pathData="M60.26,119.5L42.82,119.5L42.82,241.34h17.45c10.15,-0.64 17.36,-10.11 17.47,-20.3L77.74,139.81C77.04,127.72 69.94,119.66 60.26,119.5ZM105.99,221.25c0,21.94 -11.61,55.17 -48.36,55.1L11.23,276.35L11.23,83.4h47.38c35.44,0 47.36,33.19 47.37,55.14ZM206.67,117.85L153.39,117.85v44.81h32.57v34.49L153.39,197.14v44.79h53.29v34.49L144.5,276.42c-11.16,0.34 -20.44,-9.95 -20.72,-22.96v-145.9c-0.27,-13 8.56,-23.8 19.71,-24.13h63.19ZM310.31,252.31c-13.2,35.86 -36.85,28.72 -47.44,0L224.34,83.44h32.57l29.71,132.62 29.57,-132.62h32.58Z" />
+    <path
+        android:fillColor="@color/reverseBackgroundColor"
+        android:pathData="M32.72,43.25h-3.1v21.66h3.1a3.53,3.53 0,0 0,3.11 -3.61L35.82,46.86C35.7,44.71 34.44,43.28 32.72,43.25ZM40.84,61.33c0,3.9 -2.06,9.81 -8.6,9.8L24,71.13v-34.3h8.42c6.3,0 8.42,5.9 8.42,9.8ZM58.74,42.96L49.27,42.96v7.96h5.79v6.13h-5.79v7.96h9.47v6.13L47.69,71.14c-1.98,0.06 -3.63,-1.77 -3.68,-4.08L44.01,41.12c-0.05,-2.31 1.52,-4.23 3.5,-4.29h11.23ZM77.17,66.86c-2.35,6.37 -6.55,5.11 -8.43,0l-6.85,-30.02h5.79l5.28,23.57 5.26,-23.57h5.79Z" />
 
     </group>
+
 </vector>
