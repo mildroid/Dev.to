@@ -52,12 +52,4 @@ object RemoteModule {
         return retrofit
             .create(DevApi::class.java)
     }
-
-    @Singleton
-    @Provides
-    fun moshiProvider(): Moshi {
-        return Moshi
-            .Builder()
-            .build()
-    }
 }

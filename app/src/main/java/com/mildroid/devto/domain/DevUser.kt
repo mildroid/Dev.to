@@ -1,7 +1,9 @@
 package com.mildroid.devto.domain
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class DevUser(
     val name: String,
     val username: String,
@@ -10,7 +12,7 @@ data class DevUser(
     val twitterUsername: String?,
 
     @field:Json(name = "github_username")
-    val githubUsername: String,
+    val githubUsername: String?,
 
     @field:Json(name = "website_url")
     val websiteURL: String?,
