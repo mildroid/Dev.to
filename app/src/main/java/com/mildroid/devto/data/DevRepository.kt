@@ -9,4 +9,6 @@ class DevRepository @Inject constructor(
 
     suspend fun publishedArticles(page: Int = 1) = devApi.publishedArticles(page = page)
 
+    suspend fun tags(page: Int) = devApi.tags(page = page)
+
 }

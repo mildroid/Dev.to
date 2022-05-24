@@ -60,7 +60,6 @@ dependencies {
     implementation 'androidx.palette:palette-ktx:1.0.0'
     implementation 'androidx.core:core-splashscreen:1.0.0-rc01'
 
-
     // -- Coroutines
     def coroutines_version = '1.6.1-native-mt'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
@@ -93,13 +92,13 @@ dependencies {
     kapt("androidx.room:room-compiler:$room_version")
 
     // -- Coil - Compose
-    implementation("io.coil-kt:coil-compose:2.0.0-rc03")
+    implementation("io.coil-kt:coil-compose:2.0.0")
 
     // -- Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 
-    //    -- Jetpack Compose
+    // -- Jetpack Compose
     def compose_version = '1.1.1'
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.compiler:compiler:$compose_version"
@@ -120,5 +119,11 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
 
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.23.1"
+    def nav_version = "2.4.2"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    // -- Accompanist
+    def accompanist_version = '0.23.1'
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-flowlayout:$accompanist_version"
 }

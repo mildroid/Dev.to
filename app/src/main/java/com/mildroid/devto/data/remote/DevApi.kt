@@ -1,6 +1,7 @@
 package com.mildroid.devto.data.remote
 
 import com.mildroid.devto.domain.Article
+import com.mildroid.devto.domain.Tag
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -19,4 +20,10 @@ interface DevApi {
         @Query("collection_id") CollectionId: Int? = null,
 
     ): List<Article>
+
+    @GET("tags")
+    suspend fun tags(
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int = 15
+    ): List<Tag>
 }
