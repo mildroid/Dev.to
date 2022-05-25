@@ -17,4 +17,8 @@ data class Tag(
 
     @Transient
     var isSelected: Boolean = false
-)
+) {
+    companion object {
+        val more = Tag(-11, "more...", "#ffffff", "#ffffff")
+    }
+}

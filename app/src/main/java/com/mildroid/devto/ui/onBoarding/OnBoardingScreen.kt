@@ -1,74 +1,267 @@
 package com.mildroid.devto.ui.onBoarding
 
-import androidx.compose.foundation.BorderStroke
+import android.content.Context
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mildroid.devto.domain.Tag
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.flowlayout.FlowRow
 import com.mildroid.devto.ui.components.OrDivider
+import com.mildroid.devto.ui.components.TagChip
+import com.mildroid.devto.ui.theme.Blue700
 import com.mildroid.devto.ui.theme.spacing
-import com.mildroid.devto.utils.toColor
+import com.mildroid.devto.utils.DEV_ACCOUNT_URL
+import com.mildroid.devto.utils.launchBrowser
+import com.mildroid.devto.utils.log
+
 
 @Composable
 fun OnBoardingScreen(
+    viewModel: OnBoardingViewModel = hiltViewModel(),
     navigateToHomeScreen: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
-        topBar = { TopBar() },
-        bottomBar = { BottomBar() }
+        topBar = { TagListBar(viewModel) },
+        bottomBar = { BottomBar(navigateToHomeScreen) }
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            Text(text = "Add your API key if you hav one")
-
             OrDivider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = MaterialTheme.spacing.large)
+                    .padding(vertical = MaterialTheme.spacing.small)
             )
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                Button(onClick = navigateToHomeScreen) {
-                    Text(text = "To Home")
-                }
-                Text(text = "Hello OnBoarding", fontSize = 22.sp)
-            }
-
+            ApiKeyBar(viewModel)
         }
     }
 }
 
 @Composable
-fun TopBar() {
-    Text(
+fun TagListBar(viewModel: OnBoardingViewModel) {
+    "tagListBar".log()
+    Column(
         modifier = Modifier
-            .fillMaxWidth(),
-        text = "You have to option to get started!"
-    )
+//            .recomposeHighlighter()
+            .fillMaxWidth()
+            .padding(MaterialTheme.spacing.large),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            modifier = Modifier
+                .padding(top = MaterialTheme.spacing.small),
+            text = "Follow some tags to get started!",
+            fontSize = 22.sp
+        )
+
+        val tags = viewModel.tags
+        tags.size.log("TAG SIZE ON")
+
+        val scrollState = rememberScrollState()
+
+/*
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(MaterialTheme.spacing.extraLarge)
+//                .padding(top = MaterialTheme.spacing.large)
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Red,
+                            Color.Transparent,
+                        )
+                    )
+                )
+        )
+*/
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.55f)
+        ) {
+            FlowRow(
+                modifier = Modifier
+//                .recomposeHighlighter()
+                    .fillMaxSize()
+                    .padding(top = MaterialTheme.spacing.small)
+                    .verticalScroll(scrollState),
+                mainAxisSpacing = 16.dp,
+                crossAxisSpacing = 16.dp,
+            ) {
+                LaunchedEffect(tags.size) {
+                    scrollState.animateScrollTo(scrollState.maxValue)
+                }
+
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(5.dp)
+                )
+
+                tags.forEach { tag ->
+                    var isSelected by
+                    mutableStateOf(tag.isSelected)
+
+                    TagChip(
+                        selected = isSelected,
+                        tag = tag,
+                        modifier = Modifier
+//                        .recomposeHighlighter()
+                            .clickable {
+                                if (tag.id == -11) {
+                                    viewModel.loadMoreTags()
+                                } else {
+                                    if (isSelected) {
+                                        viewModel.selectedTags.remove(tag)
+                                    } else {
+                                        viewModel.selectedTags.add(tag)
+                                    }
+
+                                    isSelected = !isSelected
+                                    tag.isSelected = isSelected
+                                }
+                            }
+                    )
+                }
+
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(5.dp)
+                )
+
+            }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                MaterialTheme.colors.background,
+                                Color.Transparent
+                            ),
+                            endY = 100f
+                        )
+                    )
+            )
+
+        }
+
+    }
 }
 
 @Composable
-fun BottomBar() {
+fun ApiKeyBar(
+    viewModel: OnBoardingViewModel,
+    ctx: Context = LocalContext.current
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = MaterialTheme.spacing.large,
+                vertical = MaterialTheme.spacing.small
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        val getApiText = buildAnnotatedString {
+            withStyle(
+                style = SpanStyle(
+                    color = if (isSystemInDarkTheme()) Color.White else Color.Black
+                )
+            ) {
+                append("You can use your Dev.to API key! Get it from ")
+            }
+
+            pushStringAnnotation("get API key", "google.com")
+            withStyle(
+                style = SpanStyle(
+                    color = Blue700
+                )
+            ) {
+                append("here!")
+            }
+            pop()
+        }
+
+        ClickableText(
+            text = getApiText,
+            style = MaterialTheme.typography.body1,
+            onClick = { offset ->
+                getApiText.getStringAnnotations(
+                    tag = "get API key",
+                    start = offset,
+                    end = offset
+                ).firstOrNull()?.let {
+                        ctx.launchBrowser(DEV_ACCOUNT_URL)
+                }
+            }
+        )
+
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = MaterialTheme.spacing.small),
+            value = viewModel.apiKey.value,
+            onValueChange = { viewModel.changeApiKey(it) },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent, //hide the indicator
+            ),
+            placeholder = { Text(
+                text = "API Key",
+                fontSize = 16.sp
+            ) },
+            textStyle = TextStyle(fontSize = 16.sp)
+        )
+    }
+}
+
+@Composable
+fun BottomBar(navigateToHomeScreen: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(MaterialTheme.spacing.large),
+        horizontalArrangement = Arrangement.Center
     ) {
-        Button(onClick = {}) {
-            Text(text = "Next")
+        Button(
+            modifier = Modifier
+                .fillMaxWidth(0.6f),
+            elevation = ButtonDefaults.elevation(
+                defaultElevation = 0.dp,
+                pressedElevation = 0.dp,
+                disabledElevation = 0.dp
+            ),
+            onClick = {
+                navigateToHomeScreen()
+            }
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(MaterialTheme.spacing.extraSmall),
+                text = "Get Started",
+            )
         }
     }
 }

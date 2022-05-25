@@ -12,4 +12,5 @@ val Material3DarkBackground = Color(0xFF1C1B1F)
 val StartColor = Color(0xFF19C092)
 val EndColor = Color(0xFF16BDCC)
 
-val Blue200 = Color(0xFF3F51B5)
+val Blue700 = Color(0xFF2965F1)
+val Blue200 = Color(0xFF64B5F6)
